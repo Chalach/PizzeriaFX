@@ -6,10 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,20 +32,33 @@ public class Controller extends Application implements Initializable {
     @FXML private CheckBox kundenStammErstellen;
     @FXML private CheckBox mitArbeiterEinstellen;
     @FXML private CheckBox ofenErstellen;
-    @FXML private AnchorPane pizzeriaCreate;
-    @FXML private Stage primaryStage;
+    @FXML private static Stage mainStage;
+    @FXML private static ImageView picture1;
+    @FXML private static ImageView picture2;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Programm has been started!");
+        System.out.println("Programm has been started");
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Information Dialog");
+//        alert.setHeaderText(null);
+//        alert.setContentText("Programm has been started!");
+//
+//        alert.showAndWait();
     }
 
     @FXML
-    private void createPizzeria() throws IOException {
+    public void createPizzeria() throws IOException {
         String pizzeriaName = namePizzeria.getText();
         String inhaberName = nameInhaber.getText();
         String inhaberNachname = nachnameInhaber.getText();
-        int inhaberAlter = Integer.parseInt(alterInhaber.getText());
+        int inhaberAlter;
+        try {
+             inhaberAlter = Integer.parseInt(alterInhaber.getText());
+        }catch (NumberFormatException ex){
+            System.err.println("Das war keine Nummer!");
+            inhaberAlter = 0;
+        }
 
         if(namePizzeria.getText().equals("") && nameInhaber.getText().equals("") && nachnameInhaber.getText().equals("") && alterInhaber.getText().equals("")){
             System.err.println("Keine eingabe wurde getätigt!");
@@ -67,6 +81,7 @@ public class Controller extends Application implements Initializable {
 
             if(kundenStammErstellen.isSelected()){
                 createKundenstamm();
+
             }
             if(mitArbeiterEinstellen.isSelected()){
                 Stage mitarbeiterStage = new Stage();
@@ -81,20 +96,25 @@ public class Controller extends Application implements Initializable {
             if(ofenErstellen.isSelected()){
                 Ofen ofen = new Ofen();
             }
-            primaryStage.close();
+
             Stage secondaryStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
             secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
             secondaryStage.setTitle(pizzeriaName);
             secondaryStage.setScene(new Scene(root, 1280, 720));
             secondaryStage.show();
+
+            mainStage.close();
         }
     }
 
     @FXML
     public void createKundenstamm() throws IOException {
         kundenstamm = new Kundenstamm();
+    }
 
+    @FXML
+    public void showKundenstamm(){
         for (Kunde i : kundenstamm.getKundenListe()) {
             System.out.print(i);
         }
@@ -161,18 +181,25 @@ public class Controller extends Application implements Initializable {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Fenster laden
         Parent root = FXMLLoader.load(getClass().getResource("CreatePizzeria.fxml"));
+//        try{
+//            Image image = new Image("file:Y:\\Informatik\\Projekt\\PizzeriaFX\\Pizzeria.png");
+//            System.err.println("no error");
+//            picture1.setImage(image);
+//            //picture2.setImage(image);
+//        }catch (Exception ex){
+//            System.err.println("error");
+//        }
         primaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
         primaryStage.setTitle("Erstelle deine eigene Pizzeria");
         primaryStage.setScene(new Scene(root, 500, 340));
+        mainStage = primaryStage;
         primaryStage.show();
     }
 
 
     public static void main(String[] args) throws Exception {
         launch(args);
-        // Test Main
         /*
             TODO
             Ablauf:

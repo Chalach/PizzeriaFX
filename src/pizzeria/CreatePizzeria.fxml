@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -18,15 +19,19 @@
       <TextField fx:id="namePizzeria" layoutX="176.0" layoutY="71.0" promptText="Pizzeria:" />
       <TextField fx:id="nameInhaber" layoutX="176.0" layoutY="124.0" promptText="Inhaber:" />
       <TextField fx:id="nachnameInhaber" layoutX="176.0" layoutY="149.0" promptText="Nachname:" />
-      <TextField fx:id="alterInhaber" layoutX="176.0" layoutY="170.0" promptText="Alter:" />
+      <TextField fx:id="alterInhaber" layoutX="176.0" layoutY="174.0" promptText="Alter:" />
       <Button layoutX="213.0" layoutY="301.0" mnemonicParsing="false" onAction="#createPizzeria" text="Erstellen" />
-      <CheckBox fx:id="kundenStammErstellen" layoutX="203.0" layoutY="232.0" mnemonicParsing="false" text="Kundenstamm" />
-      <CheckBox fx:id="mitArbeiterEinstellen" layoutX="203.0" layoutY="249.0" mnemonicParsing="false" text="Mitarbeiter" />
-      <CheckBox fx:id="ofenErstellen" layoutX="203.0" layoutY="266.0" mnemonicParsing="false" text="Ofen" />
+      <CheckBox fx:id="kundenStammErstellen" layoutX="203.0" layoutY="232.0" mnemonicParsing="false" selected="true" text="Kundenstamm" />
+      <CheckBox fx:id="mitArbeiterEinstellen" layoutX="203.0" layoutY="249.0" mnemonicParsing="false" selected="true" text="Mitarbeiter" />
+      <CheckBox fx:id="ofenErstellen" layoutX="203.0" layoutY="266.0" mnemonicParsing="false" selected="true" text="Ofen" />
       <Text layoutX="190.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Startgegenstände">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
+      <Text layoutX="176.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pizzeria:" />
+      <Text layoutX="176.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inhaber:" />
+      <ImageView fx:id="picture1" fitHeight="228.0" fitWidth="149.0" layoutX="14.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="picture2" fitHeight="228.0" fitWidth="149.0" layoutX="337.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
