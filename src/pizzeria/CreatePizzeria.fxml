@@ -20,7 +20,7 @@
       <TextField fx:id="nameInhaber" layoutX="176.0" layoutY="124.0" promptText="Inhaber:" />
       <TextField fx:id="nachnameInhaber" layoutX="176.0" layoutY="149.0" promptText="Nachname:" />
       <TextField fx:id="alterInhaber" layoutX="176.0" layoutY="174.0" promptText="Alter:" />
-      <Button layoutX="213.0" layoutY="301.0" mnemonicParsing="false" onAction="#createPizzeria" text="Erstellen" />
+      <Button layoutX="213.0" layoutY="292.0" mnemonicParsing="false" onAction="#createPizzeria" text="Erstellen" />
       <CheckBox fx:id="kundenStammErstellen" layoutX="203.0" layoutY="232.0" mnemonicParsing="false" selected="true" text="Kundenstamm" />
       <CheckBox fx:id="mitArbeiterEinstellen" layoutX="203.0" layoutY="249.0" mnemonicParsing="false" selected="true" text="Mitarbeiter" />
       <CheckBox fx:id="ofenErstellen" layoutX="203.0" layoutY="266.0" mnemonicParsing="false" selected="true" text="Ofen" />
@@ -33,5 +33,6 @@
       <Text layoutX="176.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inhaber:" />
       <ImageView fx:id="picture1" fitHeight="228.0" fitWidth="149.0" layoutX="14.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="picture2" fitHeight="228.0" fitWidth="149.0" layoutX="337.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="copyright" alignment="CENTER" layoutY="325.0" prefHeight="17.0" prefWidth="500.0" text="Label" textAlignment="CENTER" textOverrun="CLIP" />
    </children>
 </AnchorPane>

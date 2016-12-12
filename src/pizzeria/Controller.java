@@ -8,23 +8,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Controller extends Application implements Initializable {
     @FXML private Pizzeria myRestaurante;
     @FXML private Kundenstamm kundenstamm;
     @FXML private ArrayList<Mensch> mitarbeiter = new ArrayList<>();
+    private ArrayList<String> errorList = new ArrayList<>();
+    @FXML private static Stage mainStage;
     @FXML private TextField namePizzeria;
     @FXML private TextField nameInhaber;
     @FXML private TextField nachnameInhaber;
@@ -32,80 +32,91 @@ public class Controller extends Application implements Initializable {
     @FXML private CheckBox kundenStammErstellen;
     @FXML private CheckBox mitArbeiterEinstellen;
     @FXML private CheckBox ofenErstellen;
-    @FXML private static Stage mainStage;
-    @FXML private static ImageView picture1;
-    @FXML private static ImageView picture2;
+    @FXML private ImageView picture1;
+    @FXML private ImageView picture2;
+    @FXML private Label copyright;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Programm has been started");
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Information Dialog");
-//        alert.setHeaderText(null);
-//        alert.setContentText("Programm has been started!");
-//
-//        alert.showAndWait();
+        //copyright.setText("Alex Lechner @ 2016");
+    }
+
+    private void errorDialog(String msg){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
     @FXML
     public void createPizzeria() throws IOException {
-        String pizzeriaName = namePizzeria.getText();
-        String inhaberName = nameInhaber.getText();
-        String inhaberNachname = nachnameInhaber.getText();
-        int inhaberAlter;
-        try {
-             inhaberAlter = Integer.parseInt(alterInhaber.getText());
-        }catch (NumberFormatException ex){
-            System.err.println("Das war keine Nummer!");
-            inhaberAlter = 0;
-        }
+        boolean error = true;
+        String pizzeriaName = "";
+        String inhaberName = "";
+        String inhaberNachname = "";
+        int inhaberAlter = 0;
 
-        if(namePizzeria.getText().equals("") && nameInhaber.getText().equals("") && nachnameInhaber.getText().equals("") && alterInhaber.getText().equals("")){
-            System.err.println("Keine eingabe wurde getätigt!");
-        }
-        else if(namePizzeria.getText().equals("")){
-            System.err.println("Name der Pizzeria wurde nicht angegeben!");
-        }
-        else if(nameInhaber.getText().equals("")){
-            System.err.println("Name des Inhabers wurde nicht angegeben!");
-        }
-        else if(nachnameInhaber.getText().equals("")){
-            System.err.println("Nachname des Inhabers wurde nicht angegeben!");
-        }
-        else if(alterInhaber.getText().equals("")){
-            System.err.println("Alter des Inhabers wurde nicht angegeben!");
-        }
-        else{
-            myRestaurante = new Pizzeria(pizzeriaName, new Inhaber(inhaberName, inhaberNachname, inhaberAlter));
-            System.out.println(myRestaurante);
-
-            if(kundenStammErstellen.isSelected()){
-                createKundenstamm();
-
-            }
-            if(mitArbeiterEinstellen.isSelected()){
-                Stage mitarbeiterStage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
-                mitarbeiterStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
-                mitarbeiterStage.setTitle("Mitarbeiter");
-                mitarbeiterStage.setScene(new Scene(root, 640, 360));
-                mitarbeiterStage.show();
-                mitarbeiterEinstellen();
-                mitarbeiterStage.close();
-            }
-            if(ofenErstellen.isSelected()){
-                Ofen ofen = new Ofen();
+        while (error){
+            error = false;
+            pizzeriaName = namePizzeria.getText();
+            if(namePizzeria.getText().equals("")){
+                errorDialog("Name der Pizzeria wurde nicht angegeben!");
+                error = true;
             }
 
-            Stage secondaryStage = new Stage();
+            inhaberName = nameInhaber.getText();
+            if(nameInhaber.getText().equals("")){
+                errorDialog("Name des Inhabers wurde nicht angegeben!");
+                error = true;
+            }
+
+            inhaberNachname = nachnameInhaber.getText();
+            if(nachnameInhaber.getText().equals("")){
+                errorDialog("Nachname des Inhabers wurde nicht angegeben!");
+                error = true;
+            }
+            try {
+                inhaberAlter = Integer.parseInt(alterInhaber.getText());
+            }catch (NumberFormatException ex){
+                errorDialog("Das war keine Nummer!");
+            }
+            if(namePizzeria.getText().equals("") && nameInhaber.getText().equals("") && nachnameInhaber.getText().equals("") && alterInhaber.getText().equals("")){
+                errorDialog("Keine eingabe wurde getätigt!");
+                error = true;
+            }
+        }
+
+        myRestaurante = new Pizzeria(pizzeriaName, new Inhaber(inhaberName, inhaberNachname, inhaberAlter));
+        System.out.println(myRestaurante);
+
+        if(kundenStammErstellen.isSelected()){
+            createKundenstamm();
+        }
+        if(mitArbeiterEinstellen.isSelected()){
+            Stage mitarbeiterStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
-            secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
-            secondaryStage.setTitle(pizzeriaName);
-            secondaryStage.setScene(new Scene(root, 1280, 720));
-            secondaryStage.show();
-
-            mainStage.close();
+            mitarbeiterStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
+            mitarbeiterStage.setTitle("Mitarbeiter");
+            mitarbeiterStage.setScene(new Scene(root, 640, 360));
+            mitarbeiterStage.show();
+            mitarbeiterEinstellen();
+            mitarbeiterStage.close();
         }
+        if(ofenErstellen.isSelected()){
+            Ofen ofen = new Ofen();
+        }
+
+        Stage secondaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
+        secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
+        secondaryStage.setTitle(pizzeriaName);
+        secondaryStage.setScene(new Scene(root, 1280, 720));
+        secondaryStage.show();
+
+        mainStage.close();
     }
 
     @FXML
@@ -199,6 +210,9 @@ public class Controller extends Application implements Initializable {
 
 
     public static void main(String[] args) throws Exception {
+//        Pizzen pizzen = new Pizzen();
+//        pizzen.writePizza();
+//        pizzen.readPizzas();
         launch(args);
         /*
             TODO
