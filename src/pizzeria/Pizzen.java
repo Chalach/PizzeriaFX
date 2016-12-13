@@ -1,12 +1,12 @@
 package pizzeria;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+// Hilfs-Test Klasse
+// -> wird evtl. gelöscht
 
 public class Pizzen {
     @FXML private ArrayList<Pizza> pizzen = new ArrayList<>();
@@ -14,38 +14,41 @@ public class Pizzen {
 
     public Pizzen() {
     }
+
     @FXML
-    public void readPizzas() throws IOException, ClassNotFoundException {
+    public void readPizzas() throws Exception {
         ObjectInputStream ois= new ObjectInputStream(new FileInputStream("pizzen\\pizzen.ser"));
-        while(ois.readObject() != null){
-            Pizza pizza = (Pizza) ois.readObject();
-            pizzen.add(pizza);
-            System.out.println(ois.readObject());
+        try{
+            while(ois.readObject() != null){
+                Pizza pizza = (Pizza) ois.readObject();
+                pizzen.add(pizza);
+                System.out.println(ois.readObject());
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
     @FXML
-    public void writePizza() throws IOException, ClassNotFoundException{
-        addPizza();
+    public void writePizza() throws Exception {
+        //addPizza();
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pizzen\\pizzen.ser"));
         for (Pizza i : pizzen) {
             oos.writeObject(i);
         }
+        ArrayList<String> i = new ArrayList<>();
+        i.add("peter");
+        i.add("petwerer");
+        i.add("petwewqer");
+        Pizza pizza = new Pizza("Marina", i);
+        oos.writeObject(pizza);
+        System.out.println(pizza);
         oos.close();
-    }
-
-    private void message(String msg){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 
     private void addPizza() throws IOException, ClassNotFoundException {
         String o;
         String p;
-        System.out.println("Pter");
         boolean test = true;
 
         o = JOptionPane.showInputDialog("Name Pizza:");
@@ -63,6 +66,5 @@ public class Pizzen {
         Pizza pizza = new Pizza(o, belag);
         pizzen.add(pizza);
         belag.clear();
-        writePizza();
     }
 }

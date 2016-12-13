@@ -194,17 +194,46 @@ public class Controller extends Application implements Initializable, Serializab
         primaryStage.show();
     }
 
+    @FXML private static ArrayList<Pizza> pizzen = new ArrayList<>();
+    @FXML private static ArrayList<String> belag = new ArrayList<>();
+
+    private static void readIn() throws Exception {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pizzen\\pizzen.ser"));
+        // TODO: While-Schleife funktioniert nicht
+            // while(ois.readObject() != null) ?
+        for (int i = 0; i < pizzen.size(); i++) {
+            Pizza pizza = (Pizza) ois.readObject();
+            pizzen.add(pizza);
+        }
+    }
+
+    @FXML
+    public static void writeOut() throws Exception {
+        //addPizza();
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pizzen\\pizzen.ser"));
+        for (Pizza i : pizzen) {
+            oos.writeObject(i);
+        }
+        ArrayList<String> i = new ArrayList<>();
+        i.add("peter");
+        i.add("petwerer");
+        i.add("petwewqer");
+        Pizza pizza = new Pizza("Marina", i);
+        oos.writeObject(pizza);
+        System.out.println(pizza);
+        oos.close();
+    }
+
 
     public static void main(String[] args) throws Exception {
-        Pizzen pizzen = new Pizzen();
-        pizzen.writePizza();
-        pizzen.readPizzas();
-
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("Hallo");
-//        arrayList.add("Welt");
-//        Pizza pizza = new Pizza("margerita", arrayList);
-//        System.out.println(pizza);
+//        Pizzen pizzen = new Pizzen();
+//        pizzen.writePizza();
+//        pizzen.readPizzas();
+        writeOut();
+        readIn();
+        for (Pizza i : pizzen) {
+            System.out.println(i);
+        }
         launch(args);
         /*
             TODO
