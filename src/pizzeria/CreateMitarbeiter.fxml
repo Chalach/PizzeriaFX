@@ -38,6 +38,6 @@
          </font>
       </Text>
       <CheckBox fx:id="pizzaioloSelected" layoutX="339.0" layoutY="174.0" mnemonicParsing="false" selected="true" />
-      <Button fx:id="einstellenMitarbeiter" layoutX="229.0" layoutY="258.0" mnemonicParsing="false" onAction="#mitarbeiterEinstellen" text="Okay" />
+      <Button layoutX="229.0" layoutY="258.0" mnemonicParsing="false" onAction="#mitarbeiterEinstellen" text="Okay" />
    </children>
 </AnchorPane>
