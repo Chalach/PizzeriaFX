@@ -58,6 +58,7 @@ public class Controller extends Application implements Initializable, Serializab
 
 
     public static void main(String[] args) throws Exception {
+        Simulation simulation = new Simulation();
         launch(args);
     }
 

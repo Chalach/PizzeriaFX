@@ -1,6 +1,10 @@
 package pizzeria;
 
 public class Simulation extends Thread {
+
+    public Simulation(){
+        run();
+    }
     private int threadCount = 0;
 
     private void printErgebnis(){
@@ -17,11 +21,6 @@ public class Simulation extends Thread {
 
     public static void main(String args[]) throws InterruptedException {
         System.out.println("Ich starte nun einen Thread");
-        (new Simulation()).start();
-        (new Simulation()).start();
-        (new Simulation()).start();
-        (new Simulation()).start();
-        (new Simulation()).start();
     }
 
 }
