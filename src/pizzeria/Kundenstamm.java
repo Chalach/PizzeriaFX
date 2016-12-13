@@ -8,12 +8,11 @@ import java.util.ArrayList;
 
 // Kunden, welche die pizzeria betreten oder verlassen
 public class Kundenstamm {
-    private boolean isAlreadyReadIn = false;
     private ArrayList<String> namenListe = new ArrayList<>();
     private ArrayList<Kunde> kundenListe = new ArrayList<>();
 
     public Kundenstamm() throws IOException {
-        getNamenListe();
+        generateNamenListe();
         for (int i = 0; i < 20; i++) {
             Kunde kunde = new Kunde(namenListe.get(i));
             kundenListe.add(kunde);
@@ -24,8 +23,7 @@ public class Kundenstamm {
         return kundenListe.size();
     }
 
-    public ArrayList<String> getNamenListe() throws IOException{
-        if(!isAlreadyReadIn){
+    public void generateNamenListe() throws IOException{
             try (BufferedReader br = new BufferedReader(new FileReader("namen\\namen.txt"))) {
                 for (String c; (c = br.readLine()) != null; ) {
                     namenListe.add(c);
@@ -33,8 +31,9 @@ public class Kundenstamm {
             } catch (FileNotFoundException e) {
                 System.err.println("Konnte die Datei nicht finden!");
             }
-            isAlreadyReadIn = true;
-        }
+    }
+
+    public ArrayList<String> getNamenListe(){
         return namenListe;
     }
 
@@ -45,7 +44,7 @@ public class Kundenstamm {
     @Override
     public String toString() {
         return "Kundenstamm{" +
-                "isAlreadyReadIn=" + isAlreadyReadIn +
+                "isAlreadyReadIn=" +
                 ", namenListe=" + namenListe +
                 ", kundenListe=" + kundenListe +
                 '}';

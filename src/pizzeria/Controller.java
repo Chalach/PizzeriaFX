@@ -38,7 +38,7 @@ public class Controller extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Programm has been started");
+        //System.out.println("Programm has been started");
     }
 
     private void errorDialog(String msg){
@@ -93,6 +93,7 @@ public class Controller extends Application implements Initializable {
 
         if(kundenStammErstellen.isSelected()){
             createKundenstamm();
+            showKundenstamm();
         }
         if(mitArbeiterEinstellen.isSelected()){
             mainStage.close();
@@ -101,8 +102,7 @@ public class Controller extends Application implements Initializable {
             mitarbeiterStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
             mitarbeiterStage.setTitle("Mitarbeiter");
             mitarbeiterStage.setScene(new Scene(root, 500, 340));
-            mitarbeiterStage.show();
-            //mitarbeiterStage.close();
+            mitarbeiterStage.showAndWait();
         }
         if(ofenErstellen.isSelected()){
             Ofen ofen = new Ofen();
@@ -113,13 +113,12 @@ public class Controller extends Application implements Initializable {
         secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
         secondaryStage.setTitle(pizzeriaName);
         secondaryStage.setScene(new Scene(root, 1280, 720));
-        secondaryStage.show();
+        secondaryStage.showAndWait();
     }
 
     @FXML
     public void createKundenstamm() throws IOException {
         kundenstamm = new Kundenstamm();
-        // showKundenstamm();
     }
 
     @FXML
@@ -143,9 +142,9 @@ public class Controller extends Application implements Initializable {
     @FXML
     public void mitarbeiterEinstellen() throws IOException {
         Random randomGenerator = new Random();
-        ArrayList<String> namenListe = kundenstamm.getNamenListe();
         int input = Integer.parseInt(anzahlKellner.getText());
-
+        ArrayList<String> namenListe = kundenstamm.getNamenListe();
+        showKundenstamm();
         /*
             TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
              - Namen der Angestellten muss noch random erstellt werden -> OK
