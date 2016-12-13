@@ -27,4 +27,13 @@ public class Pizza implements Serializable{
     public void addBelag(String belag){
         this.belag.add(belag);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + belag;
+    }
 }

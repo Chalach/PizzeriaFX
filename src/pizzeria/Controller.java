@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 
 
-public class Controller extends Application implements Initializable {
+public class Controller extends Application implements Initializable, Serializable {
     @FXML private Pizzeria myRestaurante;
     @FXML private Kundenstamm kundenstamm;
     @FXML private ArrayList<Mensch> mitarbeiter = new ArrayList<>();
@@ -196,9 +196,15 @@ public class Controller extends Application implements Initializable {
 
 
     public static void main(String[] args) throws Exception {
-//        Pizzen pizzen = new Pizzen();
-//        pizzen.writePizza();
-//        pizzen.readPizzas();
+        Pizzen pizzen = new Pizzen();
+        pizzen.writePizza();
+        pizzen.readPizzas();
+
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add("Hallo");
+//        arrayList.add("Welt");
+//        Pizza pizza = new Pizza("margerita", arrayList);
+//        System.out.println(pizza);
         launch(args);
         /*
             TODO
