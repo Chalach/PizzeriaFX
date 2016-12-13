@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import javax.swing.*;
 import java.io.*;
 import java.net.URL;
@@ -21,11 +20,13 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private Pizzeria myRestaurante;
     @FXML private Kundenstamm kundenstamm;
     @FXML private ArrayList<Mensch> mitarbeiter = new ArrayList<>();
+    @FXML private ArrayList<String> namenListe = new ArrayList<>();
     @FXML private static ArrayList<Pizza> pizzen = new ArrayList<>();
     @FXML private static ArrayList<String> belag = new ArrayList<>();
-    @FXML private ArrayList<String> namenListe = new ArrayList<>();
+    @FXML private String pizzeriaName;
     @FXML private static Stage mainStage;
     @FXML private static Stage mitArbeiterStage;
+    @FXML private static Stage pizzeriaMainStage;
     @FXML private TextField namePizzeria;
     @FXML private TextField nameInhaber;
     @FXML private TextField nachnameInhaber;
@@ -36,7 +37,8 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private TextField anzahlKellner;
     @FXML private CheckBox pizzaioloSelected;
     @FXML private ImageView picture1 = new ImageView();
-    @FXML private ImageView picture2;
+    @FXML private ImageView picture2 = new ImageView();
+    @FXML private ListView<String> listView;
 
      /*
         TODO
@@ -84,7 +86,7 @@ public class Controller extends Application implements Initializable, Serializab
         try{
             Image image = new Image("file:icons\\Pizzeria.png");
             picture1.setImage(image);
-            //picture2.setImage(image);
+            picture2.setImage(image);
         }catch (Exception ex){
             System.err.println("error");
         }
@@ -116,17 +118,35 @@ public class Controller extends Application implements Initializable, Serializab
 
 
     /*
-        <---------->
-          CONTROLS
-        <---------->
+                            <---------->
+                              CONTROLS
+                            <---------->
+                                 ---
+                          <-------------->
+                            Vorprogramme
+                          <-------------->
+                                 ---
+                          <--------------->
+                            Hauptprogramm
+                          <--------------->
+                                 ---
+                          <--------------->
+                              Serialize
+                          <---------------->
      */
 
 
+    /*
+        <-------------->
+          Vorprogramme
+        <-------------->
+     */
+
     @FXML
-    public void createPizzeria() throws IOException {
+    private void createPizzeria() throws IOException {
         // TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
         boolean error = true;
-        String pizzeriaName = "";
+        pizzeriaName = "";
         String inhaberName = "";
         String inhaberNachname = "";
         int inhaberAlter = 0;
@@ -181,22 +201,16 @@ public class Controller extends Application implements Initializable, Serializab
         if(ofenErstellen.isSelected()){
             Ofen ofen = new Ofen();
         }
-
-        Stage secondaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
-        secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
-        secondaryStage.setTitle(pizzeriaName);
-        secondaryStage.setScene(new Scene(root, 1280, 720));
-        secondaryStage.showAndWait();
+        workPizzeria();
     }
 
     @FXML
-    public void createKundenstamm() throws IOException {
+    private void createKundenstamm() throws IOException {
         kundenstamm = new Kundenstamm();
     }
 
     @FXML
-    public void showKundenstamm(){
+    private void showKundenstamm(){
         for (Kunde i : kundenstamm.getKundenListe()) {
             System.out.print(i);
         }
@@ -214,7 +228,87 @@ public class Controller extends Application implements Initializable, Serializab
     }
 
     @FXML
-    public void mitarbeiterEinstellen() throws IOException {
+    private void mitarbeiterEinstellen() throws IOException, NotEnoughMoneyException {
+        /*
+            TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
+             - Namen der Angestellten muss noch random erstellt werden -> OK
+             - Bei jedem neu angestellten Mitarbeiter wird ein gewisser Betrag abgezogen -> OK
+             - Überprüfung, wenn der Kontostand leer ist. Danach kann kein neuer Mitarbeiter eingestellt werden
+        */
+
+        int input = Integer.parseInt(anzahlKellner.getText());
+        System.out.println("Kellner: " + input);
+        System.out.println("Pizzaiolo: " + 1);
+        Random randomGenerator = new Random();
+        generateNamenListe();
+
+        // Kosten macht Probleme!
+        for (int i = 0; i < input; i++) {
+//            if (kostenMitarbeiter(-300)){
+                Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
+                mitarbeiter.add(kellner);
+//            }
+//            else{
+//                throw new NotEnoughMoneyException();
+//            }
+        }
+
+        if(pizzaioloSelected.isSelected()){
+//            if(kostenMitarbeiter(-500)){
+                Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
+                mitarbeiter.add(pizzaiolo);
+//            }
+//            else{
+//                throw new NotEnoughMoneyException();
+//            }
+        }
+        else{
+            errorDialog("Sind sie sicher, dass sie keinen Pizzaiolo angestellt haben wollen?");
+        }
+        mitArbeiterStage.close();
+    }
+
+    @FXML
+    private void mitarbeiterFeuern(Mensch mitarbeiter){
+        this.mitarbeiter.remove(mitarbeiter);
+    }
+
+    @FXML
+    private ArrayList<Mensch> getMitarbeiter(){
+        return mitarbeiter;
+    }
+
+    /*
+        <--------------->
+          Hauptprogramm
+        <--------------->
+     */
+
+    // Menu - Bar
+
+    private void workPizzeria() throws IOException{
+        System.out.println(myRestaurante.getKapital());
+        Stage secondaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
+        secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
+        secondaryStage.setTitle(pizzeriaName);
+        secondaryStage.setScene(new Scene(root, 1280, 720));
+        pizzeriaMainStage = secondaryStage;
+        listView = new ListView<>();
+        listView.getItems().addAll("Hans", "Peter", "Wurst");
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        secondaryStage.show();
+    }
+
+    public void closeWindow(){
+        pizzeriaMainStage.close();
+    }
+
+    public void helpWindow(){
+        errorDialog("Sie haben, Probleme?\nLösen Sie sie selbst!");
+    }
+    @FXML
+    public void mitarbeiterEinstellenNachtraeglich() throws IOException, NotEnoughMoneyException {
         /*
             TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
              - Namen der Angestellten muss noch random erstellt werden -> OK
@@ -243,15 +337,6 @@ public class Controller extends Application implements Initializable, Serializab
         mitArbeiterStage.close();
     }
 
-    @FXML
-    public void mitarbeiterFeuern(Mensch mitarbeiter){
-        this.mitarbeiter.remove(mitarbeiter);
-    }
-
-    @FXML
-    public ArrayList<Mensch> getMitarbeiter(){
-        return mitarbeiter;
-    }
 
     /*
         <----------->
