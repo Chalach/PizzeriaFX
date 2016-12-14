@@ -2,7 +2,7 @@ package pizzeria;
 
 import java.util.ArrayList;
 
-public class Inhaber extends Mensch implements Finanzen{
+public class Inhaber extends Mensch{
     private String nachname;
     private int alter;
     private static int countMitarbeiter = 0;
@@ -43,16 +43,6 @@ public class Inhaber extends Mensch implements Finanzen{
     @Override
     public String toString() {
         return super.getName() + " " + nachname + " " + alter;
-    }
-
-    @Override
-    public void verwalteFinanzen(Pizzeria pizzeria , double finanzen) {
-        if(finanzen <= 0){
-            //gesamtKapital = kapital - finanzen;
-        }
-        else {
-            //kapital = kapital + finanzen;
-        }
     }
 
     @Override

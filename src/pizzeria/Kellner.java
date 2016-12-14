@@ -2,7 +2,7 @@ package pizzeria;
 
 import java.util.ArrayList;
 
-public class Kellner extends Mensch implements Finanzen{
+public class Kellner extends Mensch{
     private ArrayList<Pizza> pinnWand = new ArrayList<>();
     private double geldTasche;
 
@@ -30,11 +30,6 @@ public class Kellner extends Mensch implements Finanzen{
     @Override
     public String toString() {
         return super.toString();
-    }
-
-    @Override
-    public void verwalteFinanzen(Pizzeria pizzeria , double finanzen) {
-
     }
 
     @Override

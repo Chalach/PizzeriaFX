@@ -1,6 +1,6 @@
 package pizzeria;
 
-public class Kunde extends Mensch implements Finanzen{
+public class Kunde extends Mensch{
     private double geld;
     private int id = 0;
 
@@ -21,11 +21,6 @@ public class Kunde extends Mensch implements Finanzen{
     @Override
     public String toString() {
         return "Kunde: " + super.getName() + "\n" + "Geld = " + geld + "\n";
-    }
-
-    @Override
-    public void verwalteFinanzen(Pizzeria pizzeria , double finanzen) {
-
     }
 
     @Override

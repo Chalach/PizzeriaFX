@@ -253,7 +253,6 @@ public class Controller extends Application implements Initializable, Serializab
      */
 
     // Menu - Bar
-
     @FXML
     private void workPizzeria() throws IOException{
         simulation = new Simulation(myRestaurante, pizzen, mitarbeiter);
