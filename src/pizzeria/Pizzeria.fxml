@@ -6,7 +6,10 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzeria.Controller">
    <children>
@@ -19,7 +22,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#mitarbeiterEinstellen" text="Mitarbeiter einstellen" />
+              <MenuItem mnemonicParsing="false" text="Mitarbeiter einstellen" />
                   <MenuItem mnemonicParsing="false" text="Mitarbeiter feuern" />
             </items>
           </Menu>
@@ -30,11 +33,43 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView fx:id="listView" layoutX="507.0" layoutY="27.0" prefHeight="587.0" prefWidth="759.0" />
+      <ListView fx:id="listView" layoutX="507.0" layoutY="27.0" prefHeight="655.0" prefWidth="759.0" />
+      <Text layoutX="47.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pizzeria:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Label fx:id="pizzeriaStringName" alignment="CENTER" layoutX="14.0" layoutY="155.0" prefHeight="17.0" prefWidth="475.0" text="Alfredo's Pizza Stube">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Text layoutX="46.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inhaber:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Label fx:id="inhaberStringName" alignment="CENTER" layoutX="14.0" layoutY="253.0" prefHeight="17.0" prefWidth="475.0" text="Alfredo">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="pizzeriaLabel" layoutX="14.0" layoutY="690.0" prefHeight="17.0" prefWidth="475.0" text="Pizzeria - Kapital:" />
+      <Text layoutX="14.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notizenblock:" wrappingWidth="474.9999809265137">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextArea layoutX="14.0" layoutY="430.0" prefHeight="251.0" prefWidth="475.0" promptText="Notizen:" />
       <Label alignment="CENTER" layoutY="698.0" prefHeight="17.0" prefWidth="1280.0" text="Copyright © 2016 Alex Lechner">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Label>
+      <Text layoutX="24.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verwalte deine Pizzeria" textAlignment="CENTER" underline="true" wrappingWidth="474.99996185302734">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

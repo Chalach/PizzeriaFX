@@ -23,6 +23,7 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private static ArrayList<Pizza> pizzen = new ArrayList<>();
     @FXML private static ArrayList<String> belag = new ArrayList<>();
     @FXML private String pizzeriaName;
+    @FXML private String inhaberName;
     @FXML private static Stage mainStage;
     @FXML private static Stage mitArbeiterStage;
     @FXML private static Stage pizzeriaMainStage;
@@ -35,6 +36,7 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private CheckBox ofenErstellen;
     @FXML private TextField anzahlKellner;
     @FXML private CheckBox pizzaioloSelected;
+
     // @FXML private ListView<String> listView;
 
      /*
@@ -139,7 +141,7 @@ public class Controller extends Application implements Initializable, Serializab
         // Muss noch in einer spätern Version noch gefixt werden
 
         pizzeriaName = namePizzeria.getText();
-        String inhaberName = nameInhaber.getText();
+        inhaberName = nameInhaber.getText();
         String inhaberNachname = nachnameInhaber.getText();
         int inhaberAlter = Integer.parseInt(alterInhaber.getText());
 
@@ -221,6 +223,7 @@ public class Controller extends Application implements Initializable, Serializab
             Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
             mitarbeiter.add(pizzaiolo);
 
+            // Eigentlicher Code:
             // if(kostenMitarbeiter(-500)){
             //    Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
             //    mitarbeiter.add(pizzaiolo);

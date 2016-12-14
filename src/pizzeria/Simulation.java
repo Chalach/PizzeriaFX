@@ -45,6 +45,12 @@ public class Simulation extends Thread {
             run();
         }
     }
+
+    // Eigentlich sollte hier das Hauptprogramm folgen:
+    //  Kunden kommen und gehen ins Restaurant, bestellen, bezahlen,...
+    //  Inhaber kann den Ofen upgraden, Pizzeria erweitern,...
+
+    // Aus Eigenverschuldung, und dem daraus resultierende Zeitmangel, wurde dies aber nicht fertiggestellt
     public void run() {
         System.out.println("Kunde betretet die Pizzeria: ");
         System.out.println();
