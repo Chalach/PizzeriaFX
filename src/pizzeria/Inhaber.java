@@ -15,8 +15,16 @@ public class Inhaber extends Mensch{
         this.alter = alter;
     }
 
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
+    }
+
     public String getNachname() {
         return nachname;
+    }
+
+    public void setAlter(int alter) {
+        this.alter = alter;
     }
 
     public int getAlter() {
