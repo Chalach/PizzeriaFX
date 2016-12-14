@@ -4,7 +4,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -31,8 +30,6 @@
       </Text>
       <Text layoutX="176.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pizzeria:" />
       <Text layoutX="176.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inhaber:" />
-      <ImageView fx:id="picture1" fitHeight="228.0" fitWidth="149.0" layoutX="14.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="picture2" fitHeight="228.0" fitWidth="149.0" layoutX="337.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
       <Label alignment="CENTER" layoutX="1.0" layoutY="318.0" prefHeight="17.0" prefWidth="500.0" text="Copyright © 2016 Alex Lechner" textAlignment="CENTER" textOverrun="CLIP" />
    </children>
 </AnchorPane>

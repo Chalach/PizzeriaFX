@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.*;
@@ -17,8 +16,8 @@ import java.util.*;
 
 
 public class Controller extends Application implements Initializable, Serializable {
+    @FXML private Simulation simulation;
     @FXML private Pizzeria myRestaurante;
-    @FXML private Kundenstamm kundenstamm;
     @FXML private ArrayList<Mensch> mitarbeiter = new ArrayList<>();
     @FXML private ArrayList<String> namenListe = new ArrayList<>();
     @FXML private static ArrayList<Pizza> pizzen = new ArrayList<>();
@@ -36,19 +35,12 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private CheckBox ofenErstellen;
     @FXML private TextField anzahlKellner;
     @FXML private CheckBox pizzaioloSelected;
-    @FXML private ImageView picture1 = new ImageView();
-    @FXML private ImageView picture2 = new ImageView();
     @FXML private ListView<String> listView;
 
      /*
-        TODO
         Ablauf:
-            - pizzeria kann vom Inhaber erstellt werden -> OK
-            - Zu Karrierebeginn muss er Mitarbeiter einstellen -> OK
-            - Danach entschließt er sich die pizzeria zu öffnen:
-                - evtl. Auswahl, welche Pizzen er verkaufen möchte?
-            - Simulation beginnt:
-                - Kunden kommen und gehen nun zur pizzeria
+            - Simulation: !! Aus zeitlichen Gründen nicht mehr gestafft !!
+                - Kunden kommen und gehen nun zur Pizzeria
                     - werden vom Kellner/in bediehnt
                     - Bargeld wird vom Kellner/in und Inhaber verwaltet
                 - Inhaber kann neue Mitarbeiter einstellen
@@ -62,9 +54,7 @@ public class Controller extends Application implements Initializable, Serializab
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //System.out.println("Window opened");
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -79,24 +69,10 @@ public class Controller extends Application implements Initializable, Serializab
         }
 
         // Start - Fenster
-        Parent root = null;
-        try{
-            root = FXMLLoader.load(getClass().getResource("CreatePizzeria.fxml"));
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("CreatePizzeria.fxml"));
         primaryStage.getIcons().add(new Image("file:icons\\Pizzeria.png"));
         primaryStage.setTitle("Erstelle deine eigene Pizzeria");
         primaryStage.setScene(new Scene(root, 500, 340));
-
-        // Bild einfügen
-        try{
-            Image image = new Image("file:icons\\Pizzeria.png");
-            picture1.setImage(image);
-            picture2.setImage(image);
-        }catch (Exception ex){
-            System.err.println("error");
-        }
 
         // Fenster instanzieren, um es zu einem später Zeitpunkt zu schließen
         mainStage = primaryStage;
@@ -160,48 +136,20 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML
     private void createPizzeria() throws IOException {
         // TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
-        boolean error = true;
-        pizzeriaName = "";
-        String inhaberName = "";
-        String inhaberNachname = "";
-        int inhaberAlter = 0;
+        // Muss noch in einer spätern Version noch gefixt werden
 
-        while (error){
-            error = false;
-            pizzeriaName = namePizzeria.getText();
-            if(namePizzeria.getText().equals("")){
-                errorDialog("Name der Pizzeria wurde nicht angegeben!");
-                error = true;
-            }
-
-            inhaberName = nameInhaber.getText();
-            if(nameInhaber.getText().equals("")){
-                errorDialog("Name des Inhabers wurde nicht angegeben!");
-                error = true;
-            }
-
-            inhaberNachname = nachnameInhaber.getText();
-            if(nachnameInhaber.getText().equals("")){
-                errorDialog("Nachname des Inhabers wurde nicht angegeben!");
-                error = true;
-            }
-            try {
-                inhaberAlter = Integer.parseInt(alterInhaber.getText());
-            }catch (NumberFormatException ex){
-                errorDialog("Das war keine Nummer!");
-            }
-            if(namePizzeria.getText().equals("") && nameInhaber.getText().equals("") && nachnameInhaber.getText().equals("") && alterInhaber.getText().equals("")){
-                errorDialog("Keine eingabe wurde getätigt!");
-                error = true;
-            }
-        }
+        pizzeriaName = namePizzeria.getText();
+        String inhaberName = nameInhaber.getText();
+        String inhaberNachname = nachnameInhaber.getText();
+        int inhaberAlter = Integer.parseInt(alterInhaber.getText());
 
         myRestaurante = new Pizzeria(pizzeriaName, new Inhaber(inhaberName, inhaberNachname, inhaberAlter));
         System.out.println(myRestaurante);
 
         if(kundenStammErstellen.isSelected()){
-            createKundenstamm();
-            //showKundenstamm();
+            //Dieser Bereich wurde ausgebessert und würde nun in der Simulation folgen
+                //createKundenstamm();
+                //showKundenstamm();
         }
         if(mitArbeiterEinstellen.isSelected()){
             mainStage.close();
@@ -219,6 +167,7 @@ public class Controller extends Application implements Initializable, Serializab
         workPizzeria();
     }
 
+    /* Dieser Bereich wurde ausgebessert und würde nun in der Simulation folgen
     @FXML
     private void createKundenstamm() throws IOException {
         kundenstamm = new Kundenstamm();
@@ -229,58 +178,61 @@ public class Controller extends Application implements Initializable, Serializab
         for (Kunde i : kundenstamm.getKundenListe()) {
             System.out.print(i);
         }
-    }
+    }*/
 
+    // Problem Metode: Grund ?
     private boolean kostenMitarbeiter(double kapital) {
-//        if(myRestaurante.getKapital() + kapital < 0){
-//            System.err.println("Sie können keine neuen Mitarbeiter einstellen!\nIhnen fehlt das Geld!");
-//            return false;
-//        }
-//        else{
-//            myRestaurante.addKapital(kapital);
-//        }
+        if(myRestaurante.getKapital() + kapital < 0){
+            System.err.println("Sie können keine neuen Mitarbeiter einstellen!\nIhnen fehlt das Geld!");
+            return false;
+        }
+        else{
+            myRestaurante.addKapital(kapital);
+        }
         myRestaurante.addKapital(kapital);
         return true;
     }
 
     @FXML
     private void mitarbeiterEinstellen() throws IOException, NotEnoughMoneyException {
-        /*
-            TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
-             - Namen der Angestellten muss noch random erstellt werden -> OK
-             - Bei jedem neu angestellten Mitarbeiter wird ein gewisser Betrag abgezogen -> OK
-             - Überprüfung, wenn der Kontostand leer ist. Danach kann kein neuer Mitarbeiter eingestellt werden
-        */
-
+        Random randomGenerator = new Random();
         int input = Integer.parseInt(anzahlKellner.getText());
+
         System.out.println("Kellner: " + input);
         System.out.println("Pizzaiolo: " + 1);
-        Random randomGenerator = new Random();
+
         generateNamenListe();
 
         // Kosten macht Probleme!
         for (int i = 0; i < input; i++) {
-//            if (kostenMitarbeiter(-300)){
-                Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
-                mitarbeiter.add(kellner);
-//            }
-//            else{
-//                throw new NotEnoughMoneyException();
-//            }
-        }
+            Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
+            mitarbeiter.add(kellner);
 
+            // Eigentlicher Code:
+                // if(kostenMitarbeiter(-300)){
+                //     Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
+                //     mitarbeiter.add(kellner);
+                // }
+                // else{
+                //     throw new NotEnoughMoneyException();
+                // }
+        }
         if(pizzaioloSelected.isSelected()){
-            if(kostenMitarbeiter(-500)){
-                Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
-                mitarbeiter.add(pizzaiolo);
-            }
-            else{
-                //throw new NotEnoughMoneyException();
-            }
+            Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
+            mitarbeiter.add(pizzaiolo);
+
+            // if(kostenMitarbeiter(-500)){
+            //    Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
+            //    mitarbeiter.add(pizzaiolo);
+            // }
+            // else{
+            //    throw new NotEnoughMoneyException();
+            // }
         }
         else{
             errorDialog("Sind sie sicher, dass sie keinen Pizzaiolo angestellt haben wollen?");
         }
+
         mitArbeiterStage.close();
     }
 
@@ -289,10 +241,8 @@ public class Controller extends Application implements Initializable, Serializab
         this.mitarbeiter.remove(mitarbeiter);
     }
 
+    @FXML
     private ArrayList<Mensch> getMitarbeiter(){
-        //errorDialog(mitarbeiter);
-        //System.out.println("Mitarbeiter");
-
         return mitarbeiter;
     }
 
@@ -306,23 +256,18 @@ public class Controller extends Application implements Initializable, Serializab
 
     @FXML
     private void workPizzeria() throws IOException{
-        //Simulation simulation = new Simulation();
-        //System.out.println(myRestaurante.getKapital());
+        simulation = new Simulation(myRestaurante, pizzen, mitarbeiter);
         Stage secondaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
         secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
         secondaryStage.setTitle(pizzeriaName);
         secondaryStage.setScene(new Scene(root, 1280, 720));
-        getMitarbeiter();
-        for (Mensch i : mitarbeiter) {
-            System.out.println("Test");
-            System.out.println(i);
-        }
         pizzeriaMainStage = secondaryStage;
         listView = new ListView<>();
         listView.getItems().addAll("Hans", "Peter", "Wurst");
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        secondaryStage.show();
+        secondaryStage.showAndWait();
+        simulation.startSimulation();
     }
 
     @FXML
@@ -334,35 +279,38 @@ public class Controller extends Application implements Initializable, Serializab
     public void helpWindow(){
         errorDialog("Sie haben, Probleme?\nLösen Sie sie selbst!");
     }
-    @FXML
-    public void mitarbeiterEinstellenNachtraeglich() throws IOException, NotEnoughMoneyException {
-        /*
-            TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
-             - Namen der Angestellten muss noch random erstellt werden -> OK
-             - Bei jedem neu angestellten Mitarbeiter wird ein gewisser Betrag abgezogen -> OK
-             - Überprüfung, wenn der Kontostand leer ist. Danach kann kein neuer Mitarbeiter eingestellt werden
-        */
 
-        int input = Integer.parseInt(anzahlKellner.getText());
-        System.out.println("Kellner: " + input);
-        System.out.println("Pizzaiolo: " + 1);
-        Random randomGenerator = new Random();
-        generateNamenListe();
+    // Während dem Betrieb sollte der Inhaber noch Mitarbeiter einstellen können
+//    @FXML
+//    public void mitarbeiterEinstellenNachtraeglich() throws IOException, NotEnoughMoneyException {
+//        /*
+//            TODO: Fehlerbehegung, sollte der User falsche Daten eingeben
+//             - Namen der Angestellten muss noch random erstellt werden -> OK
+//             - Bei jedem neu angestellten Mitarbeiter wird ein gewisser Betrag abgezogen -> OK
+//             - Überprüfung, wenn der Kontostand leer ist. Danach kann kein neuer Mitarbeiter eingestellt werden
+//        */
+//
+//        int input = Integer.parseInt(anzahlKellner.getText());
+//        System.out.println("Kellner: " + input);
+//        System.out.println("Pizzaiolo: " + 1);
+//        Random randomGenerator = new Random();
+//        generateNamenListe();
+//
+//        for (int i = 0; i < input; i++) {
+//            Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
+//            mitarbeiter.add(kellner);
+//        }
+//
+//        if(pizzaioloSelected.isSelected()){
+//            Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
+//            mitarbeiter.add(pizzaiolo);
+//        }
+//        else{
+//            errorDialog("Sind sie sicher, dass sie keinen Pizzaiolo angestellt haben wollen?");
+//        }
+//        mitArbeiterStage.close();
+//    }
 
-        for (int i = 0; i < input; i++) {
-            Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
-            mitarbeiter.add(kellner);
-        }
-
-        if(pizzaioloSelected.isSelected()){
-            Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
-            mitarbeiter.add(pizzaiolo);
-        }
-        else{
-            errorDialog("Sind sie sicher, dass sie keinen Pizzaiolo angestellt haben wollen?");
-        }
-        mitArbeiterStage.close();
-    }
 
 
     /*
