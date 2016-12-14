@@ -35,7 +35,7 @@ public class Controller extends Application implements Initializable, Serializab
     @FXML private CheckBox ofenErstellen;
     @FXML private TextField anzahlKellner;
     @FXML private CheckBox pizzaioloSelected;
-    @FXML private ListView<String> listView;
+    // @FXML private ListView<String> listView;
 
      /*
         Ablauf:
@@ -262,10 +262,27 @@ public class Controller extends Application implements Initializable, Serializab
         secondaryStage.setTitle(pizzeriaName);
         secondaryStage.setScene(new Scene(root, 1280, 720));
         pizzeriaMainStage = secondaryStage;
-        listView = new ListView<>();
-        listView.getItems().addAll("Hans", "Peter", "Wurst");
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         secondaryStage.showAndWait();
+
+
+//        Sollte eine Liste mit allen Mitarbeitern anzeigen
+    //        ObservableList<String> names = FXCollections.observableArrayList(
+    //                "Julia", "Ian", "Sue", "Matthew", "Hannah", "Stephan", "Denise");
+    //        listView = new ListView<>(names);
+    //
+    //        listView = new ListView<String>();
+    //        ObservableList<String> items = FXCollections.observableArrayList (
+    //                "Single", "Double", "Suite", "Family App");
+    //        listView.setItems(items);
+    //
+    //        listView = new ListView<>();
+    //        listView.getItems().addAll("Hans", "Peter", "Wurst");
+    //        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+
+//         Simulation sollte beginnen, leider mir mit der Simulation erst begonnen,
+//         wenn dieses Fenster geschlossen wurde!
+
         simulation.startSimulation();
     }
 
