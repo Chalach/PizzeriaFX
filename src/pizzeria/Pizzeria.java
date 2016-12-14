@@ -33,17 +33,8 @@ public class Pizzeria {
         return kapital;
     }
 
+    // Hinweis: Es wird + (-kapital); bzw. + kapital gerechnet;
     public void addKapital(double kapital){
-//        if(kapital <= 0){
-//            // Hinweis: Es wird + (-kapital) gerechnet
-//            double kapital2 = this.kapital;
-//            if (kapital2 + kapital > 0){
-//                this.kapital += kapital;
-//            }
-//        }
-//        else {
-//            this.kapital += kapital;
-//        }
         this.kapital += kapital;
     }
 

@@ -16,6 +16,10 @@ public class Pizza implements Serializable{
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public ArrayList<String> getBelag() {
         return belag;
     }
