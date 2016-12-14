@@ -34,16 +34,17 @@ public class Pizzeria {
     }
 
     public void addKapital(double kapital){
-        if(kapital <= 0){
-            // Hinweis: Es wird + (-kapital) gerechnet
-            double kapital2 = this.kapital;
-            if (kapital2 + kapital > 0){
-                this.kapital += kapital;
-            }
-        }
-        else {
-            this.kapital += kapital;
-        }
+//        if(kapital <= 0){
+//            // Hinweis: Es wird + (-kapital) gerechnet
+//            double kapital2 = this.kapital;
+//            if (kapital2 + kapital > 0){
+//                this.kapital += kapital;
+//            }
+//        }
+//        else {
+//            this.kapital += kapital;
+//        }
+        this.kapital += kapital;
     }
 
     public int getAnzahlPlaezte() {

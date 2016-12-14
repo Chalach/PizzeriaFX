@@ -67,16 +67,12 @@ public class Controller extends Application implements Initializable, Serializab
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception{
         // TODO: Bilder einfügen
 
         // Serialize, um die schon vorhanden Pizzas ins Programm zu laden
-        try{
-            //writeOut();
-            readIn();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        //writeOut();
+        readIn();
 
         for (Pizza i : pizzen) {
             System.out.println(i);
@@ -113,6 +109,14 @@ public class Controller extends Application implements Initializable, Serializab
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
         alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    private void errorDialog(ArrayList<Mensch> msg){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(msg.toString());
         alert.showAndWait();
     }
 
@@ -228,13 +232,14 @@ public class Controller extends Application implements Initializable, Serializab
     }
 
     private boolean kostenMitarbeiter(double kapital) {
-        if(myRestaurante.getKapital() + kapital < 0){
-            System.err.println("Sie können keine neuen Mitarbeiter einstellen!\nIhnen fehlt das Geld!");
-            return false;
-        }
-        else{
-            myRestaurante.addKapital(kapital);
-        }
+//        if(myRestaurante.getKapital() + kapital < 0){
+//            System.err.println("Sie können keine neuen Mitarbeiter einstellen!\nIhnen fehlt das Geld!");
+//            return false;
+//        }
+//        else{
+//            myRestaurante.addKapital(kapital);
+//        }
+        myRestaurante.addKapital(kapital);
         return true;
     }
 
@@ -265,13 +270,13 @@ public class Controller extends Application implements Initializable, Serializab
         }
 
         if(pizzaioloSelected.isSelected()){
-//            if(kostenMitarbeiter(-500)){
+            if(kostenMitarbeiter(-500)){
                 Pizzaiolo pizzaiolo = new Pizzaiolo(namenListe.get(randomGenerator.nextInt(70)));
                 mitarbeiter.add(pizzaiolo);
-//            }
-//            else{
-//                throw new NotEnoughMoneyException();
-//            }
+            }
+            else{
+                //throw new NotEnoughMoneyException();
+            }
         }
         else{
             errorDialog("Sind sie sicher, dass sie keinen Pizzaiolo angestellt haben wollen?");
@@ -284,8 +289,10 @@ public class Controller extends Application implements Initializable, Serializab
         this.mitarbeiter.remove(mitarbeiter);
     }
 
-    @FXML
     private ArrayList<Mensch> getMitarbeiter(){
+        //errorDialog(mitarbeiter);
+        //System.out.println("Mitarbeiter");
+
         return mitarbeiter;
     }
 
@@ -297,14 +304,20 @@ public class Controller extends Application implements Initializable, Serializab
 
     // Menu - Bar
 
+    @FXML
     private void workPizzeria() throws IOException{
-        Simulation simulation = new Simulation();
-        System.out.println(myRestaurante.getKapital());
+        //Simulation simulation = new Simulation();
+        //System.out.println(myRestaurante.getKapital());
         Stage secondaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
         secondaryStage.getIcons().add(new Image("file:icons\\pizzeria.png"));
         secondaryStage.setTitle(pizzeriaName);
         secondaryStage.setScene(new Scene(root, 1280, 720));
+        getMitarbeiter();
+        for (Mensch i : mitarbeiter) {
+            System.out.println("Test");
+            System.out.println(i);
+        }
         pizzeriaMainStage = secondaryStage;
         listView = new ListView<>();
         listView.getItems().addAll("Hans", "Peter", "Wurst");
@@ -312,10 +325,12 @@ public class Controller extends Application implements Initializable, Serializab
         secondaryStage.show();
     }
 
+    @FXML
     public void closeWindow(){
         pizzeriaMainStage.close();
     }
 
+    @FXML
     public void helpWindow(){
         errorDialog("Sie haben, Probleme?\nLösen Sie sie selbst!");
     }
