@@ -49,4 +49,34 @@ public class Kundenstamm {
                 ", kundenListe=" + kundenListe +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Kundenstamm)) return false;
+
+        Kundenstamm that = (Kundenstamm) o;
+
+        if (getNamenListe() != null ? !getNamenListe().equals(that.getNamenListe()) : that.getNamenListe() != null)
+            return false;
+        return getKundenListe() != null ? getKundenListe().equals(that.getKundenListe()) : that.getKundenListe() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getNamenListe() != null ? getNamenListe().hashCode() : 0;
+        result = 31 * result + (getKundenListe() != null ? getKundenListe().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        try {
+            return new Kundenstamm();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

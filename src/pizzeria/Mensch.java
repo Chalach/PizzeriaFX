@@ -19,4 +19,20 @@ public abstract class Mensch {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mensch)) return false;
+
+        Mensch mensch = (Mensch) o;
+
+        return getName() != null ? getName().equals(mensch.getName()) : mensch.getName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
+    }
 }

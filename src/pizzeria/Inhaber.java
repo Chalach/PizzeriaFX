@@ -54,4 +54,31 @@ public class Inhaber extends Mensch implements Finanzen{
             //kapital = kapital + finanzen;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Inhaber)) return false;
+
+        Inhaber inhaber = (Inhaber) o;
+
+        if (getAlter() != inhaber.getAlter()) return false;
+        if (getNachname() != null ? !getNachname().equals(inhaber.getNachname()) : inhaber.getNachname() != null)
+            return false;
+        return getMitarbeiter() != null ? getMitarbeiter().equals(inhaber.getMitarbeiter()) : inhaber.getMitarbeiter() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getNachname() != null ? getNachname().hashCode() : 0;
+        result = 31 * result + getAlter();
+        result = 31 * result + (getMitarbeiter() != null ? getMitarbeiter().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Inhaber(getName(), getNachname(), getAlter());
+    }
 }

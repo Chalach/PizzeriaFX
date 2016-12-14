@@ -27,4 +27,31 @@ public class Kunde extends Mensch implements Finanzen{
     public void verwalteFinanzen(Pizzeria pizzeria , double finanzen) {
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Kunde)) return false;
+
+        Kunde kunde = (Kunde) o;
+
+        if (Double.compare(kunde.getGeld(), getGeld()) != 0) return false;
+        return getId() == kunde.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(getGeld());
+        result = (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getId();
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Kunde(getName());
+    }
 }

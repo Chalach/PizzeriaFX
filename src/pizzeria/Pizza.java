@@ -12,6 +12,10 @@ public class Pizza implements Serializable{
         this.belag = belag;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public ArrayList<String> getBelag() {
         return belag;
     }
@@ -28,12 +32,32 @@ public class Pizza implements Serializable{
         this.belag.add(belag);
     }
 
-    public String getName() {
-        return name;
-    }
-
     @Override
     public String toString() {
         return name + " " + belag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pizza)) return false;
+
+        Pizza pizza = (Pizza) o;
+
+        if (getName() != null ? !getName().equals(pizza.getName()) : pizza.getName() != null) return false;
+        return getBelag() != null ? getBelag().equals(pizza.getBelag()) : pizza.getBelag() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getBelag() != null ? getBelag().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Pizza(getName(), getBelag());
     }
 }

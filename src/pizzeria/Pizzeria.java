@@ -61,4 +61,35 @@ public class Pizzeria {
                 "Kapital: " + kapital + "\n" +
                 "Anzahl Plätze: " + anzahlPlaezte + "\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pizzeria)) return false;
+
+        Pizzeria pizzeria = (Pizzeria) o;
+
+        if (Double.compare(pizzeria.getKapital(), getKapital()) != 0) return false;
+        if (getAnzahlPlaezte() != pizzeria.getAnzahlPlaezte()) return false;
+        if (getName() != null ? !getName().equals(pizzeria.getName()) : pizzeria.getName() != null) return false;
+        return getInhaber() != null ? getInhaber().equals(pizzeria.getInhaber()) : pizzeria.getInhaber() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getInhaber() != null ? getInhaber().hashCode() : 0);
+        temp = Double.doubleToLongBits(getKapital());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getAnzahlPlaezte();
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Pizzeria(getName(), (Inhaber) getInhaber());
+    }
 }

@@ -36,4 +36,31 @@ public class Kellner extends Mensch implements Finanzen{
     public void verwalteFinanzen(Pizzeria pizzeria , double finanzen) {
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Kellner)) return false;
+
+        Kellner kellner = (Kellner) o;
+
+        if (Double.compare(kellner.getGeldTasche(), getGeldTasche()) != 0) return false;
+        return getPinnWand() != null ? getPinnWand().equals(kellner.getPinnWand()) : kellner.getPinnWand() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getPinnWand() != null ? getPinnWand().hashCode() : 0;
+        temp = Double.doubleToLongBits(getGeldTasche());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Kellner(getName());
+    }
 }

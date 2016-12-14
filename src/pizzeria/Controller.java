@@ -58,7 +58,6 @@ public class Controller extends Application implements Initializable, Serializab
 
 
     public static void main(String[] args) throws Exception {
-        Simulation simulation = new Simulation();
         launch(args);
     }
 
@@ -68,17 +67,28 @@ public class Controller extends Application implements Initializable, Serializab
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         // TODO: Bilder einfügen
 
         // Serialize, um die schon vorhanden Pizzas ins Programm zu laden
-        readIn();
+        try{
+            //writeOut();
+            readIn();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
         for (Pizza i : pizzen) {
             System.out.println(i);
         }
 
         // Start - Fenster
-        Parent root = FXMLLoader.load(getClass().getResource("CreatePizzeria.fxml"));
+        Parent root = null;
+        try{
+            root = FXMLLoader.load(getClass().getResource("CreatePizzeria.fxml"));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         primaryStage.getIcons().add(new Image("file:icons\\Pizzeria.png"));
         primaryStage.setTitle("Erstelle deine eigene Pizzeria");
         primaryStage.setScene(new Scene(root, 500, 340));
@@ -288,6 +298,7 @@ public class Controller extends Application implements Initializable, Serializab
     // Menu - Bar
 
     private void workPizzeria() throws IOException{
+        Simulation simulation = new Simulation();
         System.out.println(myRestaurante.getKapital());
         Stage secondaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Pizzeria.fxml"));
@@ -347,21 +358,16 @@ public class Controller extends Application implements Initializable, Serializab
 
     private static void readIn() throws Exception {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pizzen\\pizzen.ser"));
-        // TODO: While-Schleife funktioniert nicht
-            // while(ois.readObject() != null) ?
-        for (int i = 0; i < 5; i++) {
-            Pizza pizza = (Pizza) ois.readObject();
-            pizzen.add(pizza);
-        }
+        ArrayList<Pizza> pizzern = (ArrayList<Pizza>) ois.readObject();
+        System.out.println(pizzern);
+        ois.close();
     }
 
     @FXML
     public static void writeOut() throws Exception {
         addPizza();
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("pizzen\\pizzen.ser"));
-        for (Pizza i : pizzen) {
-            oos.writeObject(i);
-        }
+        oos.writeObject(pizzen);
         oos.close();
     }
 
