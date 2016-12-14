@@ -141,8 +141,11 @@ public class Controller extends Application implements Initializable, Serializab
         // Muss noch in einer spätern Version noch gefixt werden
 
         pizzeriaName = namePizzeria.getText();
+        assert pizzeriaName != null;
         inhaberName = nameInhaber.getText();
+        assert  inhaberName != null;
         String inhaberNachname = nachnameInhaber.getText();
+        assert inhaberNachname != null;
         int inhaberAlter = Integer.parseInt(alterInhaber.getText());
 
         myRestaurante = new Pizzeria(pizzeriaName, new Inhaber(inhaberName, inhaberNachname, inhaberAlter));
@@ -191,7 +194,6 @@ public class Controller extends Application implements Initializable, Serializab
         else{
             myRestaurante.addKapital(kapital);
         }
-        myRestaurante.addKapital(kapital);
         return true;
     }
 
@@ -211,7 +213,7 @@ public class Controller extends Application implements Initializable, Serializab
             mitarbeiter.add(kellner);
 
             // Eigentlicher Code:
-                // if(kostenMitarbeiter(-300)){
+                // if(kostenMitarbeiter(-300))){
                 //     Kellner kellner = new Kellner(namenListe.get(randomGenerator.nextInt(70)));
                 //     mitarbeiter.add(kellner);
                 // }
